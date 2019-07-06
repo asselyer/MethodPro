@@ -5,3 +5,4 @@
 >Assel Yernazarova
 >Serikzhan Yermekov
 >Daribek Sarsenbeyv
+>Yernur Bolatov
