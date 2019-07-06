@@ -2,5 +2,5 @@
 *Kercode*
 Сбор данных
 <hr>
-> Assel Yernazarova
-> Serikzhan Yermekov
+Assel Yernazarova
+Serikzhan Yermekov
