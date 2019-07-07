@@ -6,12 +6,15 @@ import string
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, recall_score, precision_score
+from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
 
 def parseOutText(content):
     words = ""
   
     ### remove punctuation
-    text_string = content.translate(str.maketrans('', '', string.punctuation))
+    punc = string.punctuation
+    punc= punc+'«»—“”–№'
+    text_string = content.translate(str.maketrans('', '', punc))
 
     from nltk.stem.snowball import SnowballStemmer 
 
@@ -40,19 +43,17 @@ def parse_set( collection ):
     return word_data
     
 def build_model_ru():
-    
-    from sklearn.model_selection import train_test_split
     data = pd.read_json('./data/news-ru.json', encoding = 'utf-8')
     data.drop('id', axis = 1, inplace=True)
-    data = data.iloc[:10]
+#     data = data.iloc[:1000]
     
-    from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
     
     word_data = parse_set(data['text'])
     
     f = open('./data/stopwords-ru.txt', 'r')
     vectorizer = TfidfVectorizer(f.read())
     X = vectorizer.fit_transform(word_data)
+    print(X.shape)
 
     x_train, x_test, y_train, y_test = train_test_split(X, data["sentiment"], test_size = 0.2, random_state = 7)
     clf_forest = RandomForestClassifier(n_estimators = 100, random_state = 7)
@@ -62,7 +63,6 @@ def build_model_ru():
 
 
 def predict_ru(clf_forest, vectorizer, collection):
-    from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
 
     processed_data = parse_set(collection)
    
