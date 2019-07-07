@@ -7,17 +7,28 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, recall_score, precision_score
 from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
+<<<<<<< HEAD
 from sklearn.model_selection import train_test_split
 from nltk.stem.snowball import SnowballStemmer 
+=======
+>>>>>>> cd905c99c9754c0f0ae3dce8ca277bfeae52d400
 
 def parseOutText(content):
     words = ""
   
     ### remove punctuation
+<<<<<<< HEAD
     punc = string.punctuation 
     punc = punc+'«»—“”–№'
     
     text_string = content.translate(str.maketrans('', '', punc))
+=======
+    punc = string.punctuation
+    punc= punc+'«»—“”–№'
+    text_string = content.translate(str.maketrans('', '', punc))
+
+    from nltk.stem.snowball import SnowballStemmer 
+>>>>>>> cd905c99c9754c0f0ae3dce8ca277bfeae52d400
 
 #     from nltk.stem.snowball import SnowballStemmer 
 
@@ -47,15 +58,19 @@ def parse_set( collection ):
 def build_model_ru():
     data = pd.read_json('./data/news-ru.json', encoding = 'utf-8')
     data.drop('id', axis = 1, inplace=True)
-    data = data.iloc[:10]
+#     data = data.iloc[:1000]
     
+<<<<<<< HEAD
 #     from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
+=======
+>>>>>>> cd905c99c9754c0f0ae3dce8ca277bfeae52d400
     
     word_data = parse_set(data['text'])
     
     f = open('./data/stopwords-ru.txt', 'r')
     vectorizer = TfidfVectorizer(f.read())
     X = vectorizer.fit_transform(word_data)
+    print(X.shape)
 
     print(word_data)
     
@@ -67,7 +82,6 @@ def build_model_ru():
 
 
 def predict_ru(clf_forest, vectorizer, collection):
-    from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
 
     processed_data = parse_set(collection)
    
