@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { CSVLink } from 'react-csv';
 import { 
   Row,
   Alert,
   Col,
 } from 'reactstrap';
 import './NewList.css';
+import csv from '../my-news.csv';
+import json from '../my-news.json';
+import xsl from '../my-news.xlsx';
 
 class NewList extends Component {
   renderArticles () {
+    
     if (this.props.articles && this.props.articles.length) {
       return this.props.articles.map((article, idx) => {
         return (
+      
           <Col md={6} key={idx} className="article-box">
             <div><img alt={article.title} src={article.urlToImage} /></div>
             <h4>{article.title}</h4>
-            <h5>{article.url}</h5>
+            
             <p>{article.description}</p>
             <div><a href={article.url} target="blank" className="link-read-more">Ссылка</a></div>
+            
           </Col>
+          
+          
         );
       });
     }

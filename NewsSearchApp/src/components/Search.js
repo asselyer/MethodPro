@@ -38,6 +38,7 @@ class Search extends Component {
           <Button outline color="danger" onClick={e => this.props.onSearch(e)} >Найти</Button>
         </Col>
       </Row>
+      
     );
   }
 }

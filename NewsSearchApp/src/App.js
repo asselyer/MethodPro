@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Jumbotron, Button, NavLink } from 'reactstrap';
+import { ListGroup, li } from 'reactstrap';
 import { 
   Container
 } from 'reactstrap';
@@ -7,7 +9,10 @@ import { SORT_OPTIONS } from './constants';
 import { getArticles } from './api';
 import Search from './components/Search';
 import NewList from './components/NewList';
+import Files from './components/Files';
 import Pagination from './components/Pagination';
+import './App.css';
+import csv from './my-news.csv';
 
 class App extends Component {
   constructor() {
@@ -121,8 +126,28 @@ class App extends Component {
           onSortChange={this.handleSortChange}
         />
         <NewList { ...this.state } />
+        <Jumbotron className='container1'>
+        <h1 className="display-3">News Search</h1>
+        <p className="lead">Our easy news search app written on React, using machine learning for sentimental analysis</p>
+        <hr className="my-2" />
+     
+        <li>Serikzhan</li>
+        <li>Yernur</li>
+        <li>Daribek</li>
+        <li>Assel</li>
+       <br/>
+     
+      
+        <p className="lead">
+          <a href="https://github.com/asselyer/MethodPro" >Наш github</a>
+        </p>
+      </Jumbotron>
+      <hr className='ye'/>
+      <Files />
         <Pagination { ...this.state } onClick={this.handlePagination} />
+      
       </Container>
+
     );
   }
 }
