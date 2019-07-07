@@ -4,31 +4,32 @@ import string
 import codecs
 import string
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, recall_score, precision_score
 
 def parseOutText(content):
     words = ""
-    if len(content) > 1:
-        ### remove punctuation
-        text_string = content.translate(str.maketrans('', '', string.punctuation))
-        
-        from nltk.stem.snowball import SnowballStemmer 
+  
+    ### remove punctuation
+    text_string = content.translate(str.maketrans('', '', string.punctuation))
+
+    from nltk.stem.snowball import SnowballStemmer 
 
 
-        ### project part 2: comment out the line below
-    #         words = text_string
+    ### project part 2: comment out the line below
+#         words = text_string
 
-        ### split the text string into individual words, stem each word,
-        ### and append the stemmed word to words (make sure there's a single
-        ### space between each stemmed word)
+    ### split the text string into individual words, stem each word,
+    ### and append the stemmed word to words (make sure there's a single
+    ### space between each stemmed word)
 
-        stemmer = SnowballStemmer("russian")
+    stemmer = SnowballStemmer("russian")
 
-        words = "";
-        splitted_text = text_string.split()
-        for word in splitted_text:
-            word = stemmer.stem(word)
-            words = words + word + " "
+    words = "";
+    splitted_text = text_string.split()
+    for word in splitted_text:
+        word = stemmer.stem(word)
+        words = words + word + " "
     
     return words
     
@@ -39,8 +40,11 @@ def parse_set( collection ):
     return word_data
     
 def build_model_ru():
+    
+    from sklearn.model_selection import train_test_split
     data = pd.read_json('./data/news-ru.json', encoding = 'utf-8')
     data.drop('id', axis = 1, inplace=True)
+    data = data.iloc[:10]
     
     from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
     
@@ -49,21 +53,19 @@ def build_model_ru():
     f = open('./data/stopwords-ru.txt', 'r')
     vectorizer = TfidfVectorizer(f.read())
     X = vectorizer.fit_transform(word_data)
-    transformer = TfidfTransformer()
-    transformer.fit(X)
-    tfidf = transformer.transform()
 
-    x_train, x_test, y_train, y_test = train_test_split(tfidf, data["sentiment"], test_size = 0.2, random_state = 7)
+    x_train, x_test, y_train, y_test = train_test_split(X, data["sentiment"], test_size = 0.2, random_state = 7)
     clf_forest = RandomForestClassifier(n_estimators = 100, random_state = 7)
     clf_forest.fit(x_train, y_train)
     
-    return clf_forest, transformer
+    return clf_forest, vectorizer
 
-def predict_ru(clf_forest, transformer, collection):
+
+def predict_ru(clf_forest, vectorizer, collection):
+    from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
+
     processed_data = parse_set(collection)
-    f = open('./data/stopwords-ru.txt', 'r')
-    vectorizer = TfidfVectorizer(f.read())
-    X = vectorizer.fit_transform(processed_data)
-    return clf_forest.predict( transformer.transform(X))
+   
+    return clf_forest.predict( vectorizer.transform(processed_data) )
 
     
