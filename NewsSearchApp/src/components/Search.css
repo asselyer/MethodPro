@@ -1,0 +1,16 @@
+.search-bar {
+  padding: 15px;
+  background-color: #080707;
+}
+
+input, button {
+  width: 100%;
+}
+
+img {
+  width: 78px;
+}
+
+.logo-container {
+  align-self: center
+}
